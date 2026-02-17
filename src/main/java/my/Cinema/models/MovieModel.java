@@ -17,12 +17,19 @@ import java.io.Serializable;
 public class MovieModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public MovieModel(String imdbId, String title, String year, String director) {
+        this.imdbId = imdbId;
+        this.title = title;
+        this.year = year;
+        this.director = director;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String imdbld;
+    @Column(name= "imdb_id", unique = true, nullable = false)
+    private String imdbId;
 
     private String title;
     private String year;
