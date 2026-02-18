@@ -2,6 +2,7 @@ package my.Cinema.services;
 
 import my.Cinema.client.OmdbMovieClient;
 import my.Cinema.dtos.MovieResponseDto;
+import my.Cinema.exception.MovieNotFoundedException;
 import my.Cinema.models.MovieModel;
 import my.Cinema.repositories.MovieRepository;
 import org.springframework.beans.BeanUtils;
@@ -35,7 +36,7 @@ public class MovieService {
         var callApi= omdbMovieClient.getMovieByTitle(title,key);
         //verifica se respone = false e lanca execption
         if("False".equalsIgnoreCase(callApi.response())){
-            throw new RuntimeException("Filme nao encontrado");
+            throw new MovieNotFoundedException("Filme não encontrado com titulo: " + title);
         }
         var movieModel = new MovieModel(callApi.imdbId(),callApi.title(), callApi.year(), callApi.director());
         movieRepository.save(movieModel);
@@ -50,7 +51,7 @@ public class MovieService {
         }
         var callApi = omdbMovieClient.getMovieById(imdbId,key);
         if("False".equalsIgnoreCase(callApi.response())){
-            throw new RuntimeException("Filme nao encontrado");
+            throw new MovieNotFoundedException("Filme não encontrado com Id: " + imdbId);
         }
         var movieModel= new MovieModel(callApi.imdbId(),callApi.title(), callApi.year(), callApi.director());
         movieRepository.save(movieModel);
