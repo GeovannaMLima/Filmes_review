@@ -16,6 +16,14 @@ import java.io.Serializable;
 public class UserMovieModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public UserMovieModel(UserModel user, MovieModel movie, Integer nota, Status status, String review) {
+        this.user = user;
+        this.movie = movie;
+        this.nota = nota;
+        this.status = status;
+        this.review = review;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
