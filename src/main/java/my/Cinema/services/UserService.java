@@ -3,10 +3,13 @@ package my.Cinema.services;
 import jakarta.transaction.Transactional;
 import my.Cinema.dtos.UserRegisterRequestDto;
 import my.Cinema.dtos.UserResponseDto;
+import my.Cinema.exception.UserAlreadyExistException;
+import my.Cinema.exception.UserNotFoundException;
 import my.Cinema.models.UserModel;
 import my.Cinema.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,9 @@ public class UserService {
 
     @Transactional
     public UserResponseDto saveUser(UserRegisterRequestDto requestDto) {
+        if(userRepository.findByLogin(requestDto.login()).isPresent()) {
+            throw new UserAlreadyExistException("Este email ja foi cadastrado!");
+        }
         var user = new UserModel();
         BeanUtils.copyProperties(requestDto, user); //copy data do user p dto
 
@@ -44,8 +50,9 @@ public class UserService {
          return userResponseDtos;
     }
 
+    @Transactional
     public UserResponseDto getUserById(Long id) {
-        UserModel userModel = userRepository.findById(id).orElseThrow (()->new RuntimeException("User not found"));
+        UserModel userModel = userRepository.findById(id).orElseThrow (()->new UserNotFoundException("Úsuário não encontrado"));
         return new UserResponseDto(userModel);
     }
 
