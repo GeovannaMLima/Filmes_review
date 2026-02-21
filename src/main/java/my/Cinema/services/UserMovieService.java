@@ -13,6 +13,8 @@ import my.Cinema.repositories.MovieRepository;
 import my.Cinema.repositories.UserMovieRepository;
 import my.Cinema.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -49,21 +51,21 @@ public class UserMovieService {
 
     }
 
-    public List<UserMovieResponseDto> getMyList() {
-
+    public Page<UserMovieResponseDto> getMyList(Pageable pageable) {
         //user logado
         UserModel user= getUserLogado();
-
-        //buscar no repositorio e transforma em DTo->List
-        return userMovieRepository.findByUserId(user.getId()).stream().
-                map(userNew->new UserMovieResponseDto(userNew)).toList();
+        //busca paginado no repositorio
+        Page<UserMovieModel> pageMyList= userMovieRepository.findByUserId(user.getId(), pageable);
+        //metodo map de Page tranf em dto
+        return pageMyList.
+                map(userNew->new UserMovieResponseDto(userNew));
 
     }
 
-    public List<UserMovieResponseDto> lookListOfOthersUsers(Long userId) {
+    public Page<UserMovieResponseDto> lookListOfOthersUsers(Long userId, Pageable pageable) {
         //acha user pelo id setado n precisa do contextHolder
-        return userMovieRepository.findByUserId(userId).stream().
-                map(userNew->new UserMovieResponseDto(userNew)).toList();
+        return userMovieRepository.findByUserId(userId,pageable).
+                map(userNew->new UserMovieResponseDto(userNew));
     }
 
     private UserModel getUserLogado(){

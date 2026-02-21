@@ -8,8 +8,11 @@ import my.Cinema.repositories.MovieRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,5 +59,16 @@ public class MovieService {
         var movieModel= new MovieModel(callApi.imdbId(),callApi.title(), callApi.year(), callApi.director());
         movieRepository.save(movieModel);
         return callApi;
+    }
+
+    public Page<MovieResponseDto> getAllMovies(Pageable pageable) {
+        Page<MovieModel> pagMovie = movieRepository.findAll(pageable);
+
+        return pagMovie.map(movie->new MovieResponseDto(
+                movie.getTitle(),
+                movie.getYear(),
+                movie.getDirector(),
+                movie.getImdbId(),
+                "True"));
     }
 }

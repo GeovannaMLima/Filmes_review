@@ -1,6 +1,7 @@
 package my.Cinema.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import my.Cinema.models.MovieModel;
 
 public record MovieResponseDto(@JsonProperty("Title") String title,
                                @JsonProperty("Year") String year,
