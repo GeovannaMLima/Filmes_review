@@ -18,10 +18,10 @@ import java.util.Optional;
 @Service
 public class MovieService {
     @Autowired
-    MovieRepository movieRepository;
+    private MovieRepository movieRepository;
 
     @Autowired
-    OmdbMovieClient  omdbMovieClient;
+    private OmdbMovieClient  omdbMovieClient;
 
     @Value("${api.omdb.key}")
     private String key;
