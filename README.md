@@ -18,6 +18,7 @@ Este projeto foi construído como um laboratório prático para consolidar conce
 - **Spring Security & JWT** (JSON Web Tokens para autenticação)
 - **Spring Cloud OpenFeign** (Consumo de API Externa)
 - **Banco de Dados:** PostgreSQL 
+- **Infraestrutura:** Docker (Containerização)
 - **Testes:** JUnit 5 e Mockito
 - **Validações e Tratamento:** Bean Validation e `@RestControllerAdvice`
 
@@ -63,23 +64,37 @@ A camada de serviços (`Services`), onde reside a inteligência da aplicação, 
 git clone https://github.com/GeovannaMLima/Filmes_review.git
 ```
 
-2. Configure o banco de dados no seu `application.properties`:
+###  Executar via docker
+1. Crie um arquivo chamado .env na raiz do projeto e adicione suas credenciais:
+````bash
+    DB_URL=jdbc:postgresql://seu-banco/cinema_db
+    DB_USERNAME=seu_usuario
+    DB_PASSWORD=sua_senha
+    OMDB_API_KEY=sua_chave_aqui
+    JWT_SECRET=sua_chave_secreta
+````
+2. Construa a imagem da aplicação e execute o contêiner injetando o arquivo de variáveis:
+````bash
+    docker build -t cinema-api .
+    docker run -p 8080:8080 --env-file .env cinema-api
+````
+
+###  Executar via Maven
+1. Configure o banco de dados no seu `application.properties`:
 ```bash
    spring.datasource.url=jdbc:postgresql://localhost:5432/cinema_db
    spring.datasource.username=seu_usuario_postgres
    spring.datasource.password=sua_senha_postgres
 ```
 
-3. Adicione sua chave da API da OMDB no `application.properties`:
+2. Adicione sua chave da API da OMDB no `application.properties`:
 ````bash
     api.omdb.key=sua_chave_aqui
 ````
-
-4. Execute a aplicação (via IDE ou Maven)
+3. Execute a aplicação via terminal (ou pela sua IDE):
 ````bash
     mvn spring-boot:run
 ````
-
 ---
 Desenvolvido por [Geovanna Lima](https://www.linkedin.com/in/geovanna-lima0308)
 * [LinkedIn](https://www.linkedin.com/in/geovanna-lima0308)
