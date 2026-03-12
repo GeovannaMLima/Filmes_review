@@ -2,6 +2,11 @@
 
 Uma API RESTful desenvolvida em **Java** com **Spring Boot** para gerenciamento de listas de filmes (Watchlist) de usuários. O sistema integra-se com a API pública do OMDB para busca de títulos e aplica conceitos de Engenharia de Software, como arquitetura limpa, resiliência e alta cobertura de testes da regra de negócio.
 
+## Status do Projeto: Em Produção (Deploy na AWS)
+A API está atualmente hospedada e disponível para consumo na nuvem pública da Amazon Web Services (AWS).
+- **Base URL:** `http://ec2-3-23-127-157.us-east-2.compute.amazonaws.com:8080` *(Nota: utilize o protocolo HTTP, pois o certificado SSL não está configurado nesta instância de estudos).*
+- **Infraestrutura:** Servidor Linux Ubuntu (EC2 `t3.micro`), conteinerizado com **Docker**. As portas foram expostas via configuração de *Security Groups* e as credenciais sensíveis (variáveis de ambiente) foram injetadas diretamente no servidor em um arquivo `.env` oculto, garantindo a segurança e o isolamento do repositório.
+
 ##  O Projeto
 O objetivo desta aplicação é permitir que os usuários criem contas, autentiquem-se de forma segura e gerenciem suas listas de filmes assistidos ou para assistir, podendo adicionar avaliações (notas e reviews). A aplicação foi desenhada com foco em performance de banco de dados e tratamento rigoroso de exceções.
 
@@ -13,12 +18,12 @@ Este projeto foi construído como um laboratório prático para consolidar conce
 * **Garantia de Qualidade:** Blindagem de regras de negócio utilizando testes unitários com JUnit 5 e Mockito.
 
 ##  Tecnologias e Ferramentas
-- **Java 17+**
+- **Java 21**
 - **Spring Boot 3** (Web, Data JPA, Security)
 - **Spring Security & JWT** (JSON Web Tokens para autenticação)
 - **Spring Cloud OpenFeign** (Consumo de API Externa)
 - **Banco de Dados:** PostgreSQL 
-- **Infraestrutura:** Docker (Containerização)
+- **Infraestrutura:** Docker (Containerização) e Nuvem AWS (EC2)
 - **Testes:** JUnit 5 e Mockito
 - **Validações e Tratamento:** Bean Validation e `@RestControllerAdvice`
 
